@@ -112,6 +112,27 @@ Only set `DISCLOSERY_ORIGIN` to an HTTPS origin you trust: your key is sent ther
 | `mcp/` | Hosted connection and source-backed prompt |
 | `notebooks/` | Offline-first reported-value analysis; optional one-call live mode |
 | `fixtures/` | Invented data, explicitly synthetic and not API schema guarantees |
+| `tests/` | Offline client, CLI and notebook regression tests |
+
+## Run the tests
+
+The offline suite uses only the Python standard library:
+
+```sh
+python3 -m unittest discover -s tests -v
+```
+
+It checks exact decimal parsing, request validation, authentication headers, redirect
+refusal, HTTP errors, timeouts, response envelopes, CLI arguments, and every notebook
+code cell using synthetic data. It makes no network requests and consumes no API quota.
+Committed notebook outputs stay empty.
+
+On October 7, 2026, all 21 tests passed. Separate live checks executed organization
+search, filing history, the ten-row portfolio recipe, and the notebook's optional
+one-call live mode against Bridgewater (CIK 1350694). The returned portfolio was
+2026 Q2, period June 30, 2026. Live results depend on coverage and quota at execution
+time; these checks do not establish the accuracy of every stored filing. The hosted
+MCP endpoint also exposed the research tools described in the connection guide.
 
 ## Contributing and support
 

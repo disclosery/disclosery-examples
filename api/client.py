@@ -21,8 +21,10 @@ def get(path, **params):
     """One request, no automatic retries. Returns the complete quota/data envelope."""
     origin = os.environ.get("DISCLOSERY_ORIGIN", "https://disclosery.com").rstrip("/")
     parsed = urlsplit(origin)
-    if parsed.scheme != "https" or not parsed.netloc or parsed.username or parsed.query or parsed.fragment or parsed.path:
+    if parsed.scheme != "https" or not parsed.hostname or parsed.username is not None or parsed.password is not None or parsed.query or parsed.fragment or parsed.path or any(character.isspace() for character in origin):
         raise ValueError("DISCLOSERY_ORIGIN must be an HTTPS origin, without a path or credentials")
+    # Accessing port also rejects malformed and out-of-range port numbers.
+    parsed.port
     if not path.startswith("/api/v1/") or "?" in path or "#" in path:
         raise ValueError("Expected a relative /api/v1/ path")
     headers = {"Accept": "application/json", "User-Agent": "disclosery-examples/1.0"}
@@ -38,10 +40,14 @@ def get(path, **params):
             detail = json.loads(exc.read(65536)).get("error", {})
         except (ValueError, AttributeError):
             detail = {}
-        retry = exc.headers.get("Retry-After", "not supplied")
+        if not isinstance(detail, dict):
+            detail = {}
+        retry = (exc.headers or {}).get("Retry-After", "not supplied")
         raise APIError(f"HTTP {exc.code}; code={detail.get('code', 'unknown')}; Retry-After={retry}. See the API contract.") from None
     except (URLError, TimeoutError) as exc:
         raise APIError("Request failed; check connectivity and service availability.") from exc
+    except (ValueError, UnicodeError):
+        raise APIError("Response was not valid JSON") from None
     if not isinstance(result, dict) or "data" not in result or "quota" not in result:
         raise APIError("Unexpected response envelope")
     return result
