@@ -1,0 +1,36 @@
+{
+  "synthetic": true,
+  "description": "Invented positions for an offline arithmetic example; not SEC or Disclosery data.",
+  "quarter": "2099q1",
+  "period": "2099-03-31",
+  "summary": {
+    "value_total_usd": 100000,
+    "complete": true
+  },
+  "paging": {
+    "page": 1,
+    "pages": 1,
+    "page_size": 10,
+    "total": 3
+  },
+  "holdings": [
+    {
+      "name": "Example Alpha",
+      "amount": 1000,
+      "value_usd": 50000,
+      "pct_portfolio": 50
+    },
+    {
+      "name": "Example Beta",
+      "amount": 800,
+      "value_usd": 30000,
+      "pct_portfolio": 30
+    },
+    {
+      "name": "Example Gamma",
+      "amount": 400,
+      "value_usd": 20000,
+      "pct_portfolio": 20
+    }
+  ]
+}
