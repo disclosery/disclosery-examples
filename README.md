@@ -24,6 +24,16 @@ stocks, groups, insiders and filings; curated investor profiles may also appear 
 published. Inspect `data.funds` and choose the reporting entity explicitly. A person's
 name does not identify an SEC reporting entity or a personal investment portfolio.
 
+## Use the released CLI
+
+For terminal research, install **[Disclosery CLI 0.1.0](https://github.com/disclosery/disclosery-cli/releases/tag/v0.1.0)** using the [download and verification guide](https://disclosery.com/docs#cli). Linux x64 is validated; other platform archives are experimental. macOS and Windows binaries are unsigned.
+
+```sh
+disclosery --accept-terms --json fund filings 1350694
+```
+
+The MIT-licensed [CLI source](https://github.com/disclosery/disclosery-cli) includes regression tests, support instructions, and a cursor-based filing watch. CSV/CUSIP exports require server-authorized paid access.
+
 ## Three research recipes
 
 ### 1. Find an organization and its filings
